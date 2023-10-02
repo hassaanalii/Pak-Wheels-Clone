@@ -1,0 +1,112 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% tailwind_css %}
+
+    <style>
+        .nav-buts{
+            font-size: 17px;
+            font-weight: 500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .nav-buts:hover{
+            background-color: white;
+            color: red
+
+        }
+        .content{
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 150px;
+        }
+        .content li{
+            cursor: pointer;
+        }
+        
+        .main{
+            background-color: white;
+        }
+        .data{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .second-div {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: linear-gradient(to bottom, #0763b5, #0b447c);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            z-index: 1000; /* Ensure it appears above other content */
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="second-div">
+            <img src="{% static 'images/logo.png' %}" alt="Your Image" class="w-1/6 ml-8">
+            <div class="flex mr-8">
+                <div class="data">
+                    <p>{{request.user.email}}</p>
+                    <a href="{% url 'logout' %}">
+                        <button class="nav-buts">Logout</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <ul id="data-list">
+                {% for item in favs %}
+                <li class="border rounded-lg p-4 mb-4 bg-white relative">
+                    <a href="{% url 'car-details' item.car.id %}" class="car-details-link">
+                        <div class="flex items-center">
+                            <img src="{{ item.car.image_link }}" alt="Car Image" class="w-1/4 h-24 object-cover rounded-lg mr-4">
+                            <div class="w-3/4">
+                                <div class="flex gap-10 items-center">
+                                    <p class="text-lg font-semibold">{{ item.car.description_text }}</p>
+                                </div>
+                                <p class="text-gray-600">Price: PKR {{ item.car.price }}</p>
+                                <p class="text-gray-600">Location: {{ item.car.location }}</p>
+                                <p class="text-gray-600">Model: {{ item.car.model }}</p>
+                                <p class="text-gray-600">Kilometers Ran: {{ item.car.kms_ran }}</p>
+                                <p class="text-gray-600">Engine Power: {{ item.car.engine_power }}</p>
+                                <p class="text-gray-600">Transmission: {{ item.car.transmission }}</p>
+                                <p class="text-gray-600">Notes: {{ item.favourite.notes }}</p>
+                                <p class="text-gray-600">Ratings: {{ item.favourite.rating}}</p>
+    
+                            </div>       
+                        </div>
+                    </a>
+                    <a href="{% url 'delete-car-from-favourites' item_id=item.favourite.id %}">
+                        🗑
+                    </a>
+                          
+                </li>
+                
+                {% endfor %}
+            </ul>
+        </div> 
+    </div>
+    
+    <!-- {% for item in favs %}
+        <p>{{item.car.description_text}}</p>
+        <p>Notes: {{ item.favourite.notes }}</p>
+        <p>Rating: {{ item.favourite.rating }}</p>
+     
+    {% endfor %} -->
+</body>
+</html>

@@ -1,0 +1,209 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display JSON Data</title>
+    {% tailwind_css %}
+</head>
+<style>
+    .main{
+        background-color: white;
+    }
+    .second-div {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: linear-gradient(to bottom, #0763b5, #0b447c);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        z-index: 1000; /* Ensure it appears above other content */
+    }
+
+     .dropdown-button {
+           
+            cursor: pointer;
+            background-color: #0763b5;
+            border-radius: 5px;
+            color:white
+            
+        }
+        .dropdown-button:hover{
+            background-color: white;
+            color: red
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+           color: rgb(52, 165, 203)
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .nav-buts{
+            font-size: 17px;
+            font-weight: 500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .nav-buts:hover{
+            background-color: white;
+            color: red
+
+        }
+        .filters{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            position: fixed;
+            top: 200px;
+            left: 70px;
+            gap:50px;
+            padding: 0px 20px 50px 20px;
+            
+        }
+        .content{
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 150px;
+        }
+        .content li{
+            cursor: pointer;
+        }
+        .data{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .heart{
+            cursor: pointer;
+
+        }
+        .heart:hover{
+            font-weight: bolder;
+            font-size: 30px;
+        }
+
+</style>
+<body>
+    <div class="main">
+        <div class="second-div">
+            <img src="{% static 'images/logo.png' %}" alt="Your Image" class="w-1/6 ml-8">
+            <div class="flex mr-8">
+                <div class="data">
+                    <p>{{request.user.email}}</p>
+                    <a href="{% url 'favourites' %}">
+                        <button class="nav-buts">Favourites</button>
+                    </a>
+                    <a href="{% url 'logout' %}">
+                        <button class="nav-buts">Logout</button>
+                    </a>
+                    
+
+
+                </div>
+            </div>
+        </div>
+        <div class="filters ">
+            <div class="dropdown">
+                <button class="dropdown-button pt-2 pb-2 pr-10 pl-10">Cities &#9660</button>
+                <div class="dropdown-content">
+                    <a href="?location=Karachi{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Karachi</a>
+                    <a href="?location=Lahore{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Lahore</a>
+                    <a href="?location=Islamabad{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Islamabad</a>
+                    <a href="?location=Rawalpindi{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Rawalpindi</a>
+                    <a href="?location=Peshawar{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Peshawar</a>
+                    <a href="?location=Faisalabad{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Faisalabad</a>
+                    <a href="?location=Multan{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Multan</a>
+                    <a href="?location=Gujranwala{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Gujranwala</a>        
+                </div>
+            </div>
+            
+            <div class="dropdown">
+                <button class="dropdown-button pt-2 pb-2 pr-10 pl-10">Model &#9660</button>
+                <div class="dropdown-content">
+                    <a href="?model=2020orabove{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">2020 or Above</a>
+                    <a href="?model=below2020{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Below 2020</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropdown-button pt-2 pb-2 pr-10 pl-10">Transmission &#9660</button>
+                <div class="dropdown-content">
+                    <a href="?transmission=Manual{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}">Manual</a>
+                    <a href="?transmission=Automatic{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}">Automatic</a>
+                </div>
+            </div>
+        </div> 
+        <div class="content">
+            <ul id="data-list">
+                {% for item in serialized_data %}
+                <li class="border rounded-lg p-4 mb-4 bg-white relative">
+                    <a href="{% url 'car-details' item.id %}" class="car-details-link">
+                        <div class="flex items-center">
+                            <img src="{{ item.image_link }}" alt="Car Image" class="w-1/4 h-24 object-cover rounded-lg mr-4">
+                            <div class="w-3/4">
+                                <div class="flex gap-10 items-center">
+                                    <p class="text-lg font-semibold">{{ item.description_text }}</p>
+                                </div>
+                                <p class="text-gray-600">Price: PKR {{ item.price }}</p>
+                                <p class="text-gray-600">Location: {{ item.location }}</p>
+                                <p class="text-gray-600">Model: {{ item.model }}</p>
+                                <p class="text-gray-600">Kilometers Ran: {{ item.kms_ran }}</p>
+                                <p class="text-gray-600">Engine Power: {{ item.engine_power }}</p>
+                                <p class="text-gray-600">Transmission: {{ item.transmission }}</p>
+                            </div>       
+                        </div>
+                    </a>
+                    {% if item.id in user_favs %}
+                        <a href="{% url 'favourite-specific-car' car_id=item.id %}" class="fav-link">
+                            <p class="text-2xl font-semibold heart">❤️</p>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'favourite-specific-car' car_id=item.id %}" class="fav-link">
+                            <p class="text-2xl font-semibold heart">♡</p>
+                        </a>
+                    {% endif %}     
+                </li>
+                
+                {% endfor %}
+            </ul>
+        </div> 
+
+        <div class="flex justify-center items-center mt-4 mb-8"> <!-- Add this div for centering -->
+     
+            {% if page.has_previous %}
+                <a class="mr-5 text-red-500" href="?page=1{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">&laquo; First</a>
+                <a class="mr-5 text-red-500"href="?page={{ page.previous_page_number }}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Previous</a>
+            {% endif %}
+            
+            <p class="font-bold"> Page {{ page.number }} of {{ page.paginator.num_pages }} </p>
+            
+            
+            {% if page.has_next %}
+                <a class="ml-5 text-green-500" href="?page={{ page.next_page_number }}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Next</a>
+                <a class="ml-5 text-green-500" href="?page={{ page.paginator.num_pages }}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.transmission %}&transmission={{ request.GET.transmission }}{% endif %}">Last &raquo;</a>
+            {% endif %}
+        </div>
+        
+    </div>
+</body>
+</html>

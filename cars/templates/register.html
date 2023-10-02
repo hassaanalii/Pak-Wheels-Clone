@@ -1,0 +1,53 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    {% tailwind_css %}
+    <style>
+        .main{
+            background: linear-gradient(to bottom,#014f93, #000408  ); 
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+<body>
+    <div class="main flex h-screen items-center gap-4">
+        <img src="{% static 'images/carlogo.png' %}" alt="Your Image" style="width: 600px; height: 800px;">
+        <div class="border border-white-100 w-98 p-4 rounded-lg shadow-md">
+            <form action="" method="post">
+                {% csrf_token %}
+                <p class="text-4xl text-center py-5 px-10 font-bold text-red-600">Sign Up</p>
+
+                <div class="flex items-center justify-center gap-10 py-5 px-5">
+                    <p class="w-32 text-gray-200 font-semibold">{{form.phone_number.label}}</p>
+                    <input type="text" class="border rounded-md py-1 w-50 focus:outline-none focus:ring-2 focus:ring-blue-500" name="{{form.phone_number.name}}">
+                </div>
+                <div class="flex items-center justify-center gap-10 py-3 px-5">
+                    <p class="w-32 text-gray-200 font-semibold">{{form.email.label}}</p>
+                    <input type="email" class="border rounded-md py-1 w-50 focus:outline-none focus:ring-2 focus:ring-blue-500" name="{{form.email.name}}">
+                </div>
+                <div class="flex items-center justify-center gap-10 py-3 px-5">
+                    <p class="w-32 text-gray-200 font-semibold">{{form.password1.label}}</p>
+                    <input type="password" class="border rounded-md py-1 w-50 focus:outline-none focus:ring-2 focus:ring-blue-500" name="{{form.password1.name}}">
+                </div>
+                <div class="flex items-center justify-center gap-10 py-3 px-5">
+                    <p class="w-32 text-gray-200 font-semibold">Confirm Password</p>
+                    <input type="password" class="border rounded-md py-1 w-50 focus:outline-none focus:ring-2 focus:ring-blue-500" name="{{form.password2.name}}">
+                </div>
+            
+                {{form.errors}}
+                {% for message in messages%}
+                    <p>{{message}}</p>
+                {% endfor %}
+                <input type="submit" value="Create User" class="mt-4 mb-2 px-6 py-2 bg-red-700 hover:bg-red-900 text-white rounded-full text-center w-full">
+                <p class="mt-3 text-center text-white">Already have an account? <a href="{% url 'login' %}" class="text-red-500">Login</a></p>
+            </form>
+        </div>
+    </div>
+   
+</body>
+</html>
+
