@@ -85,11 +85,22 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pakwheelsarbisoft',
-        'USER': 'postgres',
+        'USER': 'mysuperuser',
         'PASSWORD': 'hassaan123',
-        'HOST': 'localhost'
+        'HOST': 'pakwheelsarbisoft.ctqtrous348e.eu-north-1.rds.amazonaws.com',
+        'PORT': '5432'
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'pakwheelsarbisoft',
+#         'USER': 'postgres',
+#         'PASSWORD': 'hassaan123',
+#         'HOST': 'localhost'
+#     }
+# }
+
 
 
 
