@@ -13,7 +13,7 @@ from .serializers import MyModelSerializer, FavouriteSerializer
 from django.core.paginator import Paginator
 from rest_framework import status
 
-# Define a filter dictionary to map user input to query conditions
+
 filter_conditions = {}
 
 # Define constants for URL names
