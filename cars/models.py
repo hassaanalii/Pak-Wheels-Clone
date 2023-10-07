@@ -35,3 +35,8 @@ class Favorite(models.Model):
     added_at = models.DateTimeField(auto_now_add=True)
     notes = models.TextField(null=True, blank=False)
     rating = models.IntegerField(null=True, blank=False)
+    is_deleted = models.BooleanField(default=False)
+    
+    def soft_delete(self):
+        self.is_deleted = True
+        self.save()
