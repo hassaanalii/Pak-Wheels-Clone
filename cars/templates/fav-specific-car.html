@@ -1,0 +1,106 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% tailwind_css %}
+</head>
+<style>
+    .second-div {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: linear-gradient(to bottom, #0763b5, #0b447c);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        z-index: 1000;
+    }
+
+    .nav-buts {
+        font-size: 17px;
+        font-weight: 500;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .nav-buts:hover {
+        background-color: white;
+        color: red;
+    }
+    .btn{
+        font-size: 17px;
+        font-weight: 500;
+        color: white;
+        background-color: rgb(151, 25, 25);
+        border-radius: 5px;
+        border: none;
+        padding: 10px 30px;
+        cursor: pointer;
+    }
+
+    .data {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .bodyclass{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .errors{
+        position: fixed;
+        top:120px;
+        background-color: rgb(151, 25, 25);
+        padding: 20px;
+        border-radius: 5px;
+        color: white;
+        margin-top: 0px;
+    }
+</style>
+<body class="min-h-screen bodyclass">
+    {% if error %}
+        <div class="errors">
+            <p class="error">{{ error.rating|first }}</p>
+        </div>
+    {% endif %}
+    <div>
+        <div class="second-div">
+            <img src="{% static 'images/logo.png' %}" alt="Your Image" class="w-1/6 ml-8">
+            <div class="flex mr-8">
+                <div class="data">
+                    <p>{{request.user.email}}</p>
+                    <a href="{% url 'logout' %}">
+                        <button class="nav-buts">Logout</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="h-screen flex justify-center items-center mt-10">
+            <form class="bg-white shadow-xl p-8 rounded-lg max-w-md mx-auto" action="" method="POST">
+                {% csrf_token %}
+        
+                <label class="block text-brown2 font-bold mb-2" for="{{ form.title.id_for_label }}">{{ form.notes.label }}</label>
+                {{ form.notes }}
+        
+                <label class="block text-brown2 font-bold mt-4 mb-2" for="{{ form.description.id_for_label }}">{{ form.rating.label }}</label>
+                {{ form.rating }}
+        
+                <div class="mt-4 flex items-center justify-center">
+                    <button type="submit" class="btn mt-5">
+                        Add to Favorites
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+   
+</body>
+</html>
