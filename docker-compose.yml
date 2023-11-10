@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: pakwheelsclone
+      POSTGRES_USER: mysuperuser
+      POSTGRES_PASSWORD: hassaan123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgresdb.sql:/docker-entrypoint-initdb.d/postgresdb.sql
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=django-insecure-yi44ql(h2cql*7v2p$$#8#zf9!efa!vb8s*!83h_o=84ys=kz^+
+      - DJANGO_SETTINGS_MODULE=pakwheelsclone.settings
+      - DATABASE_ENGINE=django.db.backends.postgresql
+      - DATABASE_NAME=pakwheelsclone
+      - DATABASE_USER=mysuperuser
+      - DATABASE_PASSWORD=hassaan123
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+    volumes:
+      - .:/app
+      - static_volume:/app/static
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+  static_volume:
+
+
+
